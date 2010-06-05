@@ -11,8 +11,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 	NSString *returnValue;
 
 	if ([[aTableColumn identifier] isEqualToString:@"1"])
-		returnValue = [NSString stringWithFormat:@"%i", [NSNumber numberWithInt:rowIndex]];
-		//returnValue = [NSNumber numberWithInt:rowIndex];
+		returnValue = [NSNumber numberWithInt:rowIndex];
 	
 	if ([[aTableColumn identifier] isEqualToString:@"2"])
 		returnValue = [self objectAtIndex:rowIndex];
@@ -39,6 +38,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 
 - (void)awakeFromNib
 {
+	// inicializa o pc a 0
 	pc = 0;
 	myMemory = [[NSMutableArray alloc] initWithCapacity:32768];
 	[self limpaMemoria];
@@ -63,81 +63,81 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 - (IBAction)run:(id)sender
 {
 	[self limpaMemoria];
-	int spointer = 1,mpointer;
-	int i,len,kl;
-	NSString *codigo = [[inputCode textStorage] string];
-	NSMutableString *curChar;
 	
+	int spointer = 1,mpointer;
+	int i,kl;
+	
+	// Cria uma NSString com o conteudo da NSTextView de Input
+	NSString *codigo = [[inputCode textStorage] string];
+	// Copia o codigo para um array de ints (space)
+	// TODO: Meter isto a correr directamente da NSTextView ou do NSString
+	// TODO: ou ent‹o ignorar logo tudo non-bf aqui
 	for(i = 0; i < [codigo length]; i++) {
-		//NSLog(@"%c", [codigo characterAtIndex:i]);
 		space[spointer] = [codigo characterAtIndex:i];
 		spointer++;
 	}
 	
-	len = spointer;
-	spointer = 0;
-	mpointer = 0;
+	int len = spointer; // "tamanho" do programa
+	
+	spointer = 0; // pointer do codigo
+	mpointer = 0; // pointer da memoria
+	
+	// TODO: A ideia Ž passar isto para um outro metodo para implementar
+	// TODO: o Single-Step, etc.
 	for (spointer = 0; spointer < len; spointer++) 
 	{
-		curChar = @"";
+		// Todas estas variaveis s‹o para conseguir escrever em ASCII
+		// o valor da memoria apontada por mpointer - BLEH!!!
+		
+		// Apanha o valor da memoria apontada por mpointer
 		NSNumber *memPos = [myMemory objectAtIndex:mpointer];
-		unichar c = [memPos intValue];
+		unichar c = [memPos intValue]; // Passa o valor para um unichar
+
+		// Variaveis temporarias para escrever na NSTextView
+		// TODO: Tem de haver uma maneira mais simples de fazer isto
 		NSString *str;
 		NSAttributedString *string;
 		NSTextStorage *storage;
-		//NSLog(@"#%i - '%c', MemPos: %i, MemVal: %d", spointer, space[spointer], mpointer, [memPos intValue]);
+		
 		switch(space[spointer]) 
 		{
-			/* Increment pointer value */
+			/* Adiciona um oo valor da memoria em mpointer */
 			case '+':
 				[myMemory replaceObjectAtIndex:mpointer withObject:
 					[NSNumber numberWithInt:[memPos intValue]+1]];			
-				//memory[mpointer]++;
 				break;
-				/* Decrement pointer value */
+			/* Subtrai um ao valor da memoria em mpointer */
 			case '-':
 				[myMemory replaceObjectAtIndex:mpointer withObject:
 					[NSNumber numberWithInt:[memPos intValue]-1]];	
-				//memory[mpointer]--;
 				break;
-				/* Increment pointer */
+			/* Incrementa mpointer */
 			case '>':
 				mpointer++;
 				break;
-				/* Decrement pointer */
+			/* Subtrai mpointer */
 			case '<':
 				mpointer--;
 				break;
-				/* Print current pointer value */
+			/* Imprime o valor na memoria em mpointer */
 			case '.':
-				/*
-				curChar = [NSMutableString stringWithFormat:@"%c",[memPos charValue]];
-				NSLog(@"BENFICA: %S\n",curChar);
-				outputT = [outputText stringValue];
-				outputT = [NSMutableString stringWithFormat:@"%s%s",outputT,curChar];
-				[outputText setStringValue:curChar];
-				//[this stringWithFormat:@"%c" , [memPos charValue]];
-				NSLog(@"\nViva o MEU BENFICA: %@\n",curChar);
-				//[outputText insertText:curChar];
-                //[outputText setNeedsDisplay:YES];
-                //[outputText displayIfNeeded];
-				*/
-				//NSNumber *valor = [self objectAtIndex:rowIndex];
+				// Mete a NSString com o valor do unichar c
 				str = [NSString stringWithCharacters: &c length:1];
+				// Cria preenche uma NSAttributedString com o valor da NSString
 				string = [[NSAttributedString alloc] initWithString:str];
+				// O storage fica com o conteudo actual da NSTextView de Output (Acho eu)
 				storage = [outputText textStorage];
 				[storage beginEditing];
+				// Adiciona a string ao final do storage
 				[storage appendAttributedString:string];
 				[storage endEditing];
-				//putchar(memory[mpointer]);
 				break;
-				/* Read value and store in current pointer */
+			/* Le o valor e guarda-o na posicao de memoria actual */
 			case ',':
-				//memory[mpointer] = getchar();
+				// TODO: Ainda n‹o est‡ implementado
 				break;
-				/* Start loop */
+			/* Start loop */
 			case '[':
-				//if (memory[mpointer] == 0) {
 				if ([memPos intValue] == 0)
 				{
 					/* Find matching ] */
@@ -153,9 +153,8 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 					}
 				}
 				break;
-				/* End loop */
+			/* End loop */
 			case ']':
-				//if (memory[mpointer] != 0) {
 				if ([memPos intValue] != 0)
 				{
 					/* Find matching [ */
@@ -170,10 +169,14 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 					spointer--;
 				}
 				break;
-			}
-		[memoryDisplay selectRow: mpointer byExtendingSelection: NO];
-		[memoryDisplay reloadData];
 		}
+		
+		// Supostamente seleciona a linha da memoria actualmente escolhida
+		// mas ta quieto oh preto...
+		[memoryDisplay selectRow: mpointer byExtendingSelection: NO];
+		// Refresh na gaja!
+		[memoryDisplay reloadData];
+	}
 	
 }
 
