@@ -8,11 +8,17 @@
     IBOutlet NSTableView *memoryDisplay;
     IBOutlet NSTextView *outputText;
 	
-	int space[32768];
-	//int memory[32768];
+	BOOL isRunning;
+	int programPosition, memoryPosition;
+	int ciclos;
+	
+	// Para onde Ž copiado o codigo do programa
+	int myCode[32768];
+	// Memoria do programa
 	NSMutableArray *myMemory;
-	int pc; // Program Counter
 }
 - (IBAction)run:(id)sender;
 - (void)limpaMemoria;
+- (void)runStep;
+
 @end
