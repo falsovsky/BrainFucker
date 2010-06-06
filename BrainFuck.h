@@ -7,6 +7,9 @@
     IBOutlet NSTextView *inputCode;
     IBOutlet NSTableView *memoryDisplay;
     IBOutlet NSTextView *outputText;
+	IBOutlet NSButton *runButton;
+	IBOutlet NSButton *stepoutButton;
+
 	
 	BOOL isRunning;
 	int programPosition, memoryPosition;
@@ -14,11 +17,16 @@
 	
 	// Para onde Ž copiado o codigo do programa
 	int myCode[32768];
+	int codeLength;
 	// Memoria do programa
 	NSMutableArray *myMemory;
 }
 - (IBAction)run:(id)sender;
+- (IBAction)singleStep:(id)sender;
+- (IBAction)stepOut:(id)sender;
+
+
 - (void)limpaMemoria;
-- (void)runStep;
+- (void)doStep;
 
 @end

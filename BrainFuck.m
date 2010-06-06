@@ -52,6 +52,8 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 	
 	// Liga o myMemory ao memoryDisplay
 	[memoryDisplay setDataSource: myMemory];
+	
+	[stepoutButton setEnabled: NO];
 }
 
 /*
@@ -68,11 +70,11 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 	[memoryDisplay reloadData];
 }
 
+
 - (IBAction)run:(id)sender
 {
 	[self limpaMemoria];
 	
-	isRunning = YES;
 	programPosition = 1;
 	int i;
 	
@@ -90,13 +92,63 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 		
 	for (programPosition = 0; programPosition < programLen; programPosition++) 
 	{
-		[self runStep];
+		[self doStep];
 	}
 	
-	isRunning = NO;
 }
 
-- (void)runStep
+- (IBAction)singleStep:(id)sender
+{
+	NSLog(@"Position: %d - Length: %d",programPosition,codeLength);
+	
+	if (isRunning == NO)
+	{
+		isRunning = YES;
+		[runButton setEnabled: NO];
+		
+		[self limpaMemoria];
+		programPosition = 1;
+		
+		NSString *myInput = [[inputCode textStorage] string];
+		int i;
+		for(i = 0; i < [myInput length]; i++) {
+			myCode[programPosition] = [myInput characterAtIndex:i];
+			programPosition++;
+		}
+		codeLength = programPosition;
+		programPosition = 0;
+	} else {
+		//NSLog(@"Ciclos: %d",ciclos);
+
+		if (programPosition >= codeLength)
+		{
+			isRunning = NO;
+			[runButton setEnabled: YES];
+		}
+		
+		if (ciclos > 0)
+		{
+			[stepoutButton setEnabled: YES];
+		}
+	}
+	
+	if (isRunning == YES)
+	{
+		NSRange myRange = { programPosition, 1 };
+		[inputCode setSelectedRange: myRange];
+		[self doStep];
+		programPosition++;
+	}
+	
+}
+
+- (IBAction)stepOut:(id)sender
+{
+	
+}
+
+
+- (void)doStep
 {
 	// Todas estas variaveis s‹o para conseguir escrever em ASCII
 	// o valor da memoria apontada por mpointer - BLEH!!!

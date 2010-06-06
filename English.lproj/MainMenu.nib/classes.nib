@@ -1,13 +1,15 @@
 {
     IBClasses = (
         {
-            ACTIONS = {run = id; }; 
+            ACTIONS = {run = id; singleStep = id; stepOut = id; }; 
             CLASS = BrainFuck; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 inputCode = NSTextView; 
                 memoryDisplay = NSTableView; 
                 outputText = NSTextView; 
+                runButton = NSButton; 
+                stepoutButton = NSButton; 
             }; 
             SUPERCLASS = NSObject; 
         }, 
