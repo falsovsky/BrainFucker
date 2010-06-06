@@ -12,6 +12,7 @@
 
 	
 	BOOL isRunning;
+	BOOL inCycle;
 	int programPosition, memoryPosition;
 	int ciclos;
 	

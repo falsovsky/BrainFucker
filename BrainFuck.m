@@ -54,6 +54,38 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 	[memoryDisplay setDataSource: myMemory];
 	
 	[stepoutButton setEnabled: NO];
+	
+	[inputCode setTypingAttributes:
+		[NSDictionary dictionaryWithObjectsAndKeys:
+			[NSColor greenColor],
+			NSForegroundColorAttributeName,
+			[NSColor blackColor],
+			NSBackgroundColorAttributeName, nil]];
+	[inputCode setFont:[NSFont fontWithName:@"Monaco" size:10]];
+	[inputCode setSelectedTextAttributes:
+		[NSDictionary dictionaryWithObjectsAndKeys:
+			[NSColor selectedControlTextColor],
+			NSForegroundColorAttributeName,
+			[NSColor grayColor],
+			NSBackgroundColorAttributeName, nil]];
+	/*
+	NSMutableDictionary *outputAttr = [NSMutableDictionary new];
+    [outputAttr setObject:[NSFont fontWithName:@"Monaco" size:10] forKey:NSFontAttributeName];
+    [outputAttr setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
+    [outputAttr setObject:[NSColor blackColor] forKey:NSBackgroundColorAttributeName];
+    [outputText setTypingAttributes:outputAttr];
+	[outputText setSelectedTextAttributes:outputAttr];	
+	 */
+	/*
+	[outputText setSelectedTextAttributes:
+		[NSDictionary dictionaryWithObjectsAndKeys:
+			[NSColor whiteColor],
+			NSForegroundColorAttributeName,
+			[NSColor blackColor],
+			NSBackgroundColorAttributeName, nil]];
+	[outputText setFont:[NSFont fontWithName:@"Monaco" size:10]];
+	 */
+
 }
 
 /*
@@ -105,6 +137,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 	{
 		isRunning = YES;
 		[runButton setEnabled: NO];
+		[inputCode setEditable: NO];
 		
 		[self limpaMemoria];
 		programPosition = 1;
@@ -124,16 +157,40 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 		{
 			isRunning = NO;
 			[runButton setEnabled: YES];
+			[inputCode setEditable: YES];
 		}
+		
+		if (inCycle == YES)
+		{
+			[stepoutButton setEnabled: YES];
+		} else {
+			[stepoutButton setEnabled: NO];
+		}
+
 		
 
 	}
 	
 	if (isRunning == YES)
 	{
+		while( myCode[programPosition] != '+' && myCode[programPosition] != '-' &&
+			   myCode[programPosition] != '>' && myCode[programPosition] != '<' &&
+			   myCode[programPosition] != '.' && myCode[programPosition] != ',' &&
+			   myCode[programPosition] != '[' && myCode[programPosition] != ']')
+		{
+			programPosition++;
+			NSLog(@"Ora viva %d",programPosition);
+		}
+		
+		
 		NSRange myRange = { programPosition, 1 };
 		[inputCode setSelectedRange: myRange];
+		
+
+			
+
 		[self doStep];
+
 		programPosition++;
 	}
 	
@@ -186,7 +243,12 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 			// Mete a NSString com o valor do unichar c
 			memCharStr = [NSString stringWithCharacters: &memChar length:1];
 			// Cria preenche uma NSAttributedString com o valor da NSString
-			memAttrStr = [[NSAttributedString alloc] initWithString:memCharStr];
+			memAttrStr = [[NSAttributedString alloc] initWithString:memCharStr
+								attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+												[NSColor whiteColor],
+												NSForegroundColorAttributeName,
+												[NSColor blackColor],
+												NSBackgroundColorAttributeName, nil]];
 			// O storage fica com o conteudo actual da NSTextView de Output (Acho eu)
 			myOut = [outputText textStorage];
 			[myOut beginEditing];
@@ -212,7 +274,10 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 					if (myCode[programPosition] == ']') ciclos--;
 					/* Go in right direction */
 					programPosition++;
+					inCycle = YES;
 				}
+			} else {
+				inCycle = YES;
 			}
 			break;
 		/* End loop */
@@ -229,6 +294,8 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 					programPosition--;
 				}
 				programPosition--;
+			} else {
+				inCycle = NO;
 			}
 			break;
 	}
