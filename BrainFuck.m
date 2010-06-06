@@ -126,10 +126,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 			[runButton setEnabled: YES];
 		}
 		
-		if (ciclos > 0)
-		{
-			[stepoutButton setEnabled: YES];
-		}
+
 	}
 	
 	if (isRunning == YES)
@@ -151,11 +148,12 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 - (void)doStep
 {
 	// Todas estas variaveis s‹o para conseguir escrever em ASCII
-	// o valor da memoria apontada por mpointer - BLEH!!!
+	// o valor da memoria em memoryPosition - BLEH!!!
 	
 	// Apanha o valor da memoria em memoryPosition
 	NSNumber *memValue = [myMemory objectAtIndex:memoryPosition];
-	unichar memChar = [memValue intValue]; // Passa o valor para um unichar
+	// Passa o valor para um unichar
+	unichar memChar = [memValue intValue];
 	
 	// Variaveis temporarias para escrever na NSTextView
 	// TODO: Tem de haver uma maneira mais simples de fazer isto
