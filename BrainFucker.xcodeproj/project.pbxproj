@@ -12,6 +12,9 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		C0E62A4C1183FEE0007F9E37 /* BrainFuck.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E62A4B1183FEE0007F9E37 /* BrainFuck.m */; };
+		C0EE971911C420A9008DF7CA /* PlayIco.png in Resources */ = {isa = PBXBuildFile; fileRef = C0EE971811C420A9008DF7CA /* PlayIco.png */; };
+		C0EE971F11C421B3008DF7CA /* NextIco.png in Resources */ = {isa = PBXBuildFile; fileRef = C0EE971E11C421B3008DF7CA /* NextIco.png */; };
+		C0EE972111C421C5008DF7CA /* InformationIco.png in Resources */ = {isa = PBXBuildFile; fileRef = C0EE972011C421C5008DF7CA /* InformationIco.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +30,9 @@
 		8D1107320486CEB800E47090 /* BrainFucker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrainFucker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0E62A4A1183FEE0007F9E37 /* BrainFuck.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BrainFuck.h; sourceTree = "<group>"; };
 		C0E62A4B1183FEE0007F9E37 /* BrainFuck.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BrainFuck.m; sourceTree = "<group>"; };
+		C0EE971811C420A9008DF7CA /* PlayIco.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlayIco.png; sourceTree = "<group>"; };
+		C0EE971E11C421B3008DF7CA /* NextIco.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NextIco.png; sourceTree = "<group>"; };
+		C0EE972011C421C5008DF7CA /* InformationIco.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = InformationIco.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +106,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C0EE971611C4207B008DF7CA /* Icones */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
@@ -114,6 +121,16 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C0EE971611C4207B008DF7CA /* Icones */ = {
+			isa = PBXGroup;
+			children = (
+				C0EE972011C421C5008DF7CA /* InformationIco.png */,
+				C0EE971E11C421B3008DF7CA /* NextIco.png */,
+				C0EE971811C420A9008DF7CA /* PlayIco.png */,
+			);
+			name = Icones;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -159,6 +176,9 @@
 			files = (
 				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				C0EE971911C420A9008DF7CA /* PlayIco.png in Resources */,
+				C0EE971F11C421B3008DF7CA /* NextIco.png in Resources */,
+				C0EE972111C421C5008DF7CA /* InformationIco.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

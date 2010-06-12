@@ -131,7 +131,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 
 - (IBAction)singleStep:(id)sender
 {
-	NSLog(@"Position: %d - Length: %d",programPosition,codeLength);
+	//NSLog(@"Position: %d - Length: %d",programPosition,codeLength);
 	
 	if (isRunning == NO)
 	{
@@ -179,7 +179,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 			   myCode[programPosition] != '[' && myCode[programPosition] != ']')
 		{
 			programPosition++;
-			NSLog(@"Ora viva %d",programPosition);
+			//NSLog(@"Ora viva %d",programPosition);
 		}
 		
 		
@@ -255,6 +255,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 			// Adiciona a string ao final do storage
 			[myOut appendAttributedString:memAttrStr];
 			[myOut endEditing];
+			[outputText scrollRangeToVisible: NSMakeRange ([[outputText string] length], 0)];
 			break;
 		/* Le o valor e guarda-o na posicao de memoria actual */
 		case ',':
