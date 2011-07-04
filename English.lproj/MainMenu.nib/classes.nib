@@ -1,19 +1,51 @@
-{
-    IBClasses = (
-        {
-            ACTIONS = {run = id; singleStep = id; stepOut = id; }; 
-            CLASS = BrainFuck; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                inputCode = NSTextView; 
-                memoryDisplay = NSTableView; 
-                outputText = NSTextView; 
-                runButton = NSButton; 
-                stepoutButton = NSButton; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>run</key>
+				<string>id</string>
+				<key>singleStep</key>
+				<string>id</string>
+				<key>stepOut</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>BrainFuck</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>inputCode</key>
+				<string>NSTextView</string>
+				<key>memoryDisplay</key>
+				<string>NSTableView</string>
+				<key>myDrawer</key>
+				<string>NSDrawer</string>
+				<key>outputText</key>
+				<string>NSTextView</string>
+				<key>runButton</key>
+				<string>NSButton</string>
+				<key>stepoutButton</key>
+				<string>NSButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

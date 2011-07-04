@@ -54,7 +54,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 	[memoryDisplay setDataSource: myMemory];
 	
 	[stepoutButton setEnabled: NO];
-	
+	/*
 	[inputCode setTypingAttributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
 			[NSColor greenColor],
@@ -68,24 +68,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 			NSForegroundColorAttributeName,
 			[NSColor grayColor],
 			NSBackgroundColorAttributeName, nil]];
-	/*
-	NSMutableDictionary *outputAttr = [NSMutableDictionary new];
-    [outputAttr setObject:[NSFont fontWithName:@"Monaco" size:10] forKey:NSFontAttributeName];
-    [outputAttr setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-    [outputAttr setObject:[NSColor blackColor] forKey:NSBackgroundColorAttributeName];
-    [outputText setTypingAttributes:outputAttr];
-	[outputText setSelectedTextAttributes:outputAttr];	
-	 */
-	/*
-	[outputText setSelectedTextAttributes:
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			[NSColor whiteColor],
-			NSForegroundColorAttributeName,
-			[NSColor blackColor],
-			NSBackgroundColorAttributeName, nil]];
-	[outputText setFont:[NSFont fontWithName:@"Monaco" size:10]];
-	 */
-
+	*/
 }
 
 /*
@@ -100,6 +83,8 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 			[NSNumber numberWithInt:0]];
 	}
 	[memoryDisplay reloadData];
+	
+	memoryPosition = 0;
 }
 
 
@@ -113,6 +98,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 	// Cria uma NSString com o conteudo da NSTextView de Input
 	NSString *myInput = [[inputCode textStorage] string];
 	// Copia o codigo para um array de ints (myCode)
+	
 	// TODO: Meter isto a correr directamente da NSTextView ou do NSString
 	// TODO: ou ent‹o ignorar logo tudo non-bf aqui
 	for(i = 0; i < [myInput length]; i++) {
@@ -131,7 +117,6 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 
 - (IBAction)singleStep:(id)sender
 {
-	//NSLog(@"Position: %d - Length: %d",programPosition,codeLength);
 	
 	if (isRunning == NO)
 	{
@@ -139,8 +124,14 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 		[runButton setEnabled: NO];
 		[inputCode setEditable: NO];
 		
+		[myDrawer open];
+		
 		[self limpaMemoria];
-		programPosition = 1;
+		
+		[memoryDisplay selectRow: memoryPosition byExtendingSelection: NO];
+		[memoryDisplay reloadData];
+		
+		programPosition = 0;
 		
 		NSString *myInput = [[inputCode textStorage] string];
 		int i;
@@ -149,10 +140,8 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 			programPosition++;
 		}
 		codeLength = programPosition;
-		programPosition = 0;
+		programPosition = -1;
 	} else {
-		//NSLog(@"Ciclos: %d",ciclos);
-
 		if (programPosition >= codeLength)
 		{
 			isRunning = NO;
@@ -166,34 +155,40 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 		} else {
 			[stepoutButton setEnabled: NO];
 		}
-
-		
-
 	}
 	
 	if (isRunning == YES)
 	{
-		while( myCode[programPosition] != '+' && myCode[programPosition] != '-' &&
-			   myCode[programPosition] != '>' && myCode[programPosition] != '<' &&
-			   myCode[programPosition] != '.' && myCode[programPosition] != ',' &&
-			   myCode[programPosition] != '[' && myCode[programPosition] != ']')
+		[self doStep];
+		programPosition++;
+		
+		while([self isBrainFuckCode: myCode[programPosition]] == FALSE)
 		{
 			programPosition++;
-			//NSLog(@"Ora viva %d",programPosition);
 		}
-		
 		
 		NSRange myRange = { programPosition, 1 };
 		[inputCode setSelectedRange: myRange];
-		
-
-			
-
-		[self doStep];
-
-		programPosition++;
 	}
 	
+}
+
+- (BOOL)isBrainFuckCode:(char)c
+{
+	char valid[8] = "><+-.,[]";
+	int i = 0;
+	for (i = 0; i <= 8; i++)
+	{
+		if (c == valid[i])
+		{
+			//NSLog(@"Valid BF code: %c",c);
+			return TRUE;
+		}
+	}
+
+	//NSLog(@"Not BF code: %c",c);
+
+	return FALSE;
 }
 
 - (IBAction)stepOut:(id)sender
