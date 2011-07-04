@@ -54,21 +54,6 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 	[memoryDisplay setDataSource: myMemory];
 	
 	[stepoutButton setEnabled: NO];
-	/*
-	[inputCode setTypingAttributes:
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			[NSColor greenColor],
-			NSForegroundColorAttributeName,
-			[NSColor blackColor],
-			NSBackgroundColorAttributeName, nil]];
-	[inputCode setFont:[NSFont fontWithName:@"Monaco" size:10]];
-	[inputCode setSelectedTextAttributes:
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			[NSColor selectedControlTextColor],
-			NSForegroundColorAttributeName,
-			[NSColor grayColor],
-			NSBackgroundColorAttributeName, nil]];
-	*/
 }
 
 /*
@@ -208,10 +193,7 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 	unichar memChar = [memValue intValue];
 	
 	// Variaveis temporarias para escrever na NSTextView
-	// TODO: Tem de haver uma maneira mais simples de fazer isto
 	NSString *memCharStr;
-	NSAttributedString *memAttrStr;
-	NSTextStorage *myOut;
 	
 	switch(myCode[programPosition]) 
 	{
@@ -237,20 +219,11 @@ objectValueForTableColumn:(NSTableColumn *) aTableColumn
 		case '.':
 			// Mete a NSString com o valor do unichar c
 			memCharStr = [NSString stringWithCharacters: &memChar length:1];
-			// Cria preenche uma NSAttributedString com o valor da NSString
-			memAttrStr = [[NSAttributedString alloc] initWithString:memCharStr
-								attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-												[NSColor whiteColor],
-												NSForegroundColorAttributeName,
-												[NSColor blackColor],
-												NSBackgroundColorAttributeName, nil]];
-			// O storage fica com o conteudo actual da NSTextView de Output (Acho eu)
-			myOut = [outputText textStorage];
-			[myOut beginEditing];
-			// Adiciona a string ao final do storage
-			[myOut appendAttributedString:memAttrStr];
-			[myOut endEditing];
-			[outputText scrollRangeToVisible: NSMakeRange ([[outputText string] length], 0)];
+			[[outputText textStorage]
+			 replaceCharactersInRange:NSMakeRange([[outputText textStorage] length],
+												  0) withString:memCharStr];
+			[outputText scrollRangeToVisible:NSMakeRange([[outputText textStorage]
+														  length], 0)];
 			break;
 		/* Le o valor e guarda-o na posicao de memoria actual */
 		case ',':
